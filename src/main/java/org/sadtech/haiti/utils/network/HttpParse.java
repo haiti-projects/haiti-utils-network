@@ -24,6 +24,8 @@ import java.util.concurrent.TimeUnit;
 public class HttpParse {
 
     public static final String X_API_TOKEN = "x-api-token";
+    public static final String BEARER = "Bearer ";
+    public static final String AUTHORIZATION = "Authorization";
 
     public static final HttpHeader ACCEPT = HttpHeader.of("Accept", "text/html,application/xhtml+xml,application/json");
 
@@ -59,7 +61,7 @@ public class HttpParse {
     }
 
     public HttpParse header(@NonNull HttpHeader header) {
-        requestBuilder.header(header.getName(), header.getName());
+        requestBuilder.header(header.getName(), header.getValue());
         return this;
     }
 
