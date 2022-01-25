@@ -1,13 +1,14 @@
-package org.sadtech.haiti.utils.network;
+package dev.struchkov.haiti.utils.network;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
+import dev.struchkov.haiti.utils.Assert;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -20,8 +21,9 @@ import java.util.concurrent.TimeUnit;
  *
  * @author upagge 30.09.2020
  */
-@Slf4j
 public class HttpParse {
+
+    private static final Logger log = LoggerFactory.getLogger(HttpParse.class);
 
     public static final String X_API_TOKEN = "x-api-token";
     public static final String BEARER = "Bearer ";
@@ -45,34 +47,40 @@ public class HttpParse {
             .readTimeout(60, TimeUnit.SECONDS)
             .build();
 
-    public HttpParse(@NonNull String url) {
+    public HttpParse(String url) {
+        Assert.isNotNull(url);
         httpUrlBuilder = HttpUrl.parse(url).newBuilder();
     }
 
-    public static HttpParse request(@NonNull String url) {
+    public static HttpParse request(String url) {
+        Assert.isNotNull(url);
         return new HttpParse(url);
     }
 
-    public HttpParse header(@NonNull String name, String value) {
+    public HttpParse header(String name, String value) {
+        Assert.isNotNull(name);
         if (value != null) {
             requestBuilder.header(name, value);
         }
         return this;
     }
 
-    public HttpParse header(@NonNull HttpHeader header) {
+    public HttpParse header(HttpHeader header) {
+        Assert.isNotNull(header);
         requestBuilder.header(header.getName(), header.getValue());
         return this;
     }
 
-    public HttpParse getParameter(@NonNull String name, String value) {
+    public HttpParse getParameter(String name, String value) {
+        Assert.isNotNull(name);
         if (value != null) {
             httpUrlBuilder.addQueryParameter(name, value);
         }
         return this;
     }
 
-    public <T> Optional<T> execute(@NonNull Class<T> classOfT) {
+    public <T> Optional<T> execute(Class<T> classOfT) {
+        Assert.isNotNull(classOfT);
         final Request request = requestBuilder.url(httpUrlBuilder.build()).build();
         try (final Response execute = client.newCall(request).execute()) {
             if (execute.isSuccessful() && execute.body() != null) {
@@ -85,7 +93,8 @@ public class HttpParse {
         return Optional.empty();
     }
 
-    public <T> List<T> executeList(@NonNull Class<T> classOfT) {
+    public <T> List<T> executeList(Class<T> classOfT) {
+        Assert.isNotNull(classOfT);
         final Request request = requestBuilder.url(httpUrlBuilder.build()).build();
         try (final Response execute = client.newCall(request).execute()) {
             if (execute.isSuccessful() && execute.body() != null) {

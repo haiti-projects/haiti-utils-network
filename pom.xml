@@ -3,38 +3,53 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
-        <groupId>org.sadtech.haiti</groupId>
+        <groupId>dev.struchkov.haiti</groupId>
         <artifactId>haiti</artifactId>
-        <version>0.0.1-RELEASE</version>
+        <version>0.0.4</version>
     </parent>
 
-    <artifactId>haiti-utils</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <groupId>dev.struchkov.haiti.utils</groupId>
+    <artifactId>haiti-utils-network</artifactId>
+    <version>0.0.4</version>
+
+    <name>Haiti Network Utils</name>
+    <description>Utilities for working with the web</description>
+    <url>https://github.com/haiti-projects/haiti-utils-network</url>
+
+    <properties>
+        <java.version>11</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <okhttp.ver>4.9.3</okhttp.ver>
+        <jackson.databind.ver>2.13.1</jackson.databind.ver>
+        <logback.classic.ver>1.2.10</logback.classic.ver>
+    </properties>
 
     <dependencies>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
+            <groupId>dev.struchkov.haiti</groupId>
+            <artifactId>haiti-utils</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
-            <version>4.9.0</version>
+            <version>${okhttp.ver}</version>
         </dependency>
 
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.12.1</version>
+            <version>${jackson.databind.ver}</version>
         </dependency>
 
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.2.3</version>
+            <version>${logback.classic.ver}</version>
         </dependency>
     </dependencies>
 
@@ -42,18 +57,19 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
 
+    <scm>
+        <connection>scm:git:https://github.com/haiti-projects/haiti-utils-network.git</connection>
+        <url>https://github.com/haiti-projects/haiti-utils-network</url>
+        <developerConnection>scm:git:https://github.com/haiti-projects/haiti-utils-network.git</developerConnection>
+    </scm>
 
 </project>
