@@ -2,7 +2,7 @@ package dev.struchkov.haiti.utils.network;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dev.struchkov.haiti.utils.Assert;
+import dev.struchkov.haiti.utils.Inspector;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -15,6 +15,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+
+import static dev.struchkov.haiti.utils.Inspector.isNotNull;
 
 /**
  * Утилитарный класс для работы с web.
@@ -48,17 +50,17 @@ public class HttpParse {
             .build();
 
     public HttpParse(String url) {
-        Assert.isNotNull(url);
+        Inspector.isNotNull(url);
         httpUrlBuilder = HttpUrl.parse(url).newBuilder();
     }
 
     public static HttpParse request(String url) {
-        Assert.isNotNull(url);
+        Inspector.isNotNull(url);
         return new HttpParse(url);
     }
 
     public HttpParse header(String name, String value) {
-        Assert.isNotNull(name);
+        isNotNull(name);
         if (value != null) {
             requestBuilder.header(name, value);
         }
@@ -66,13 +68,13 @@ public class HttpParse {
     }
 
     public HttpParse header(HttpHeader header) {
-        Assert.isNotNull(header);
+        isNotNull(header);
         requestBuilder.header(header.getName(), header.getValue());
         return this;
     }
 
     public HttpParse getParameter(String name, String value) {
-        Assert.isNotNull(name);
+        isNotNull(name);
         if (value != null) {
             httpUrlBuilder.addQueryParameter(name, value);
         }
@@ -80,7 +82,7 @@ public class HttpParse {
     }
 
     public <T> Optional<T> execute(Class<T> classOfT) {
-        Assert.isNotNull(classOfT);
+        isNotNull(classOfT);
         final Request request = requestBuilder.url(httpUrlBuilder.build()).build();
         try (final Response execute = client.newCall(request).execute()) {
             if (execute.isSuccessful() && execute.body() != null) {
@@ -94,7 +96,7 @@ public class HttpParse {
     }
 
     public <T> List<T> executeList(Class<T> classOfT) {
-        Assert.isNotNull(classOfT);
+        isNotNull(classOfT);
         final Request request = requestBuilder.url(httpUrlBuilder.build()).build();
         try (final Response execute = client.newCall(request).execute()) {
             if (execute.isSuccessful() && execute.body() != null) {

@@ -1,6 +1,6 @@
 package dev.struchkov.haiti.utils.network;
 
-import dev.struchkov.haiti.utils.Assert;
+import static dev.struchkov.haiti.utils.Inspector.isNotNull;
 
 /**
  * Утилитарная сущность для {@link HttpParse}. Упрощает сохранения в константы заголовков для запроса.
@@ -18,7 +18,7 @@ public class HttpHeader {
     }
 
     public static HttpHeader of(String name, String value) {
-        Assert.isNotNull(name, value);
+        isNotNull(name, value);
         return new HttpHeader(name, value);
     }
 
